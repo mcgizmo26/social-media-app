@@ -1,0 +1,34 @@
+.inputCustom {
+    border-radius: .215rem;
+    width: calc(100% - 2rem);
+    display: inline-block;
+    box-shadow: none;
+    border: 1px solid #e4eaec;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: .5rem 1rem;
+}
+
+.inputContainer{
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.btn {
+    height: 2.5rem;
+    width: 100%;
+    font-weight: 400;
+    text-align: center;
+    padding: .5rem 1rem;
+    border-radius: .215rem;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center;
+}
+  
+.primaryBtn {
+    color: #fff;
+    background-color: #2e72b0;
+    border-color: #2e72b0;
+    box-shadow: none;
+}

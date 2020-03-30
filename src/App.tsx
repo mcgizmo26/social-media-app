@@ -1,26 +1,31 @@
+// External Libraries **************************************************
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+
+// Project Imports *****************************************************
+import Login from './Pages/Login';
+import Signup from './Pages/Signup';
+import Home from './Pages/Home';
+import Profile from './Pages/Profile';
+import Settings from './Pages/Settings';
+import ResetPassword from './Pages/ResetPassword';
+
+
+// Main Function to kick off project ***********************************
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<Router>
+			<Switch>
+				<Route path="/app/home" component={Home} />
+				<Route path="/app/profile" component={Profile} />
+				<Route path="/app/settings" component={Settings} />
+				<Route path="/resetpassword/" component={ResetPassword} />
+				<Route path="/signup" component={Signup} />
+				<Route path="/" component={Login} />
+			</Switch>
+		</Router>
+	);
 }
 
 export default App;

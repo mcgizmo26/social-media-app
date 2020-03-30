@@ -1,0 +1,28 @@
+.app {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.form1Container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form1{
+    max-height: 60%;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.errorText{
+    font-style: italic;
+    color: red;
+}
