@@ -6,7 +6,9 @@ const Settings = () => {
     return (
         <div className="app">
             <HeaderNavigation />
-            <span>This is the Settings Page.</span>
+            <div className="pageBody">
+                <span>This is the Settings Page.</span>
+            </div>
         </div>
     )
 };

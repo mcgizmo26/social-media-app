@@ -6,7 +6,9 @@ const Profile = () => {
     return (
         <div className="app">
             <HeaderNavigation />
-            <span>This is the Profile Page.</span>
+            <div className="pageBody">
+                <span>This is the Profile Page.</span>
+            </div>
         </div>
     )
 };
