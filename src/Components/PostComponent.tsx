@@ -2,6 +2,7 @@
 import React from 'react';
 
 
+// Interfaces **********************************************************
 interface PostPropsInterface {
     name: string,
     comment: string,
