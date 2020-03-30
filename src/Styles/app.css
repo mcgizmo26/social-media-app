@@ -1,7 +1,17 @@
+body {
+    font-family: 'Playfair Display', serif;
+}
+
 .app {
     position: absolute;
     height: 100%;
     width: 100%;
+}
+
+.pageBody {
+    margin-top: 2%;
+    padding: 1rem;
+
 }
 
 .form1Container {
