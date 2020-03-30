@@ -33,21 +33,22 @@ const ResetPassword = () => {
 
     };
 
-    return(
+    return (
         <div className="app">
-        <div className="form1Container">
-            <Form1
-                signInArr={signInArr}
-                onChange={onInputChangeHandler}
-                onClick={onClickHandler}
-            />
-            <div>
-                <Link to="/login">Sign in to your account</Link>
-                <span> | </span>
-                <Link to="/signup">Sign up for an account</Link>
+            <div className="form1Container">
+                <h1>Be Social</h1>
+                <Form1
+                    signInArr={signInArr}
+                    onChange={onInputChangeHandler}
+                    onClick={onClickHandler}
+                />
+                <div>
+                    <Link to="/login">Sign in to your account</Link>
+                    <span> | </span>
+                    <Link to="/signup">Sign up for an account</Link>
+                </div>
             </div>
         </div>
-    </div>
     )
 };
 

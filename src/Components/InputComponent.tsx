@@ -1,7 +1,12 @@
+// External Libraries **************************************************
 import React from 'react';
 
+
+// Project Imports *****************************************************
 import '../Styles/components.css';
 
+
+// Interfaces **********************************************************
 interface propInterface {
     id: string,
     name: string,
@@ -11,6 +16,8 @@ interface propInterface {
 
 }
 
+
+// React Component *****************************************************
 const InputComponent = ({ id, name, placeHolder, type, onChange }: propInterface) => {
     return (
         <div className="inputContainer">

@@ -48,6 +48,7 @@ const Signup = () => {
     return (
         <div className="app">
             <div className="form1Container">
+                <h1>Be Social</h1>
                 <Form1
                     signInArr={signInArr}
                     onChange={onInputChangeHandler}
