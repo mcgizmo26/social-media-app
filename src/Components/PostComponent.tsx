@@ -1,5 +1,9 @@
 // External Libraries **************************************************
-import React from 'react';
+import React, { useState} from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart as farHeart, faShareSquare as farShareSquare } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as fasHeart, faShareSquare as fasShareSquare } from "@fortawesome/free-solid-svg-icons";
+
 
 
 // Interfaces **********************************************************
@@ -11,12 +15,32 @@ interface PostPropsInterface {
 
 interface PostReactionsInterface {
     likes: number,
-    dislikes: number
+    shares: number
 };
 
 
 // React Component *****************************************************
 const PostComponent = ({ name, comment, reactions }: PostPropsInterface) => {
+
+    const [reaction, setReaction] = useState({
+        like: false,
+        share: false
+    });
+
+    const likeClickHandler = (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+        setReaction({
+            ...reaction,
+            like: !reaction.like
+        });
+    };
+
+    const shareClickHandler = (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+        setReaction({
+            ...reaction,
+            share: !reaction.share
+        });
+    }
+
     return (
         <div className="postContainer">
             <div className="postHeaderName">{name}:</div>
@@ -24,8 +48,14 @@ const PostComponent = ({ name, comment, reactions }: PostPropsInterface) => {
             <div className="postComment">"{comment}"</div>
             <br />
             <div className="reactionsContainer">
-                <span>Likes: {reactions.likes}</span>
-                <span>Dislikes: {reactions.dislikes}</span>
+                <div className="reactionLikeWrapper">
+                    <FontAwesomeIcon icon={reaction.like ? fasHeart : farHeart} style={reaction.like ? {color: "red"} : {color: "black"}} onClick={likeClickHandler}/>
+                    <span>Likes: {reactions.likes}</span>
+                </div>
+                <div className="reactionShareWrapper">
+                    <FontAwesomeIcon icon={reaction.share ? fasShareSquare : farShareSquare} style={reaction.share ? {color: "red"} : {color: "black"}} onClick={shareClickHandler}/>
+                    <span>Shares: {reactions.shares}</span>
+                </div>
             </div>
         </div>
     )

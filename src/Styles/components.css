@@ -1,3 +1,4 @@
+/* Input styles */
 .inputCustom {
     border-radius: .215rem;
     width: calc(100% - 2rem);
@@ -14,6 +15,7 @@
     margin-bottom: 1.5rem;
 }
 
+/* Button styles */
 .btn {
     height: 2.5rem;
     width: 100%;
@@ -33,6 +35,8 @@
     box-shadow: none;
 }
 
+
+/* Post container styles */
 .postContainer {
     width: 50%;
     max-height: 20%;
@@ -53,4 +57,16 @@
 .reactionsContainer {
     display: flex;
     justify-content: space-around ;
+}
+
+.reactionLikeWrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 14%;
+}
+
+.reactionShareWrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 16%;
 }

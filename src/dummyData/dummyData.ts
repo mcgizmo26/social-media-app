@@ -4,7 +4,7 @@ const DummyData = [
         comment: "Did I mention that I love life?",
         reactions:{
             likes: 0,
-            dislikes: 0
+            shares: 0
         }
     },
     {
@@ -12,7 +12,7 @@ const DummyData = [
         comment: "I am not even sure if I want to be here. In fact how old am I anyways?",
         reactions:{
             likes: 0,
-            dislikes: 0
+            shares: 0
         }
     },
     {
@@ -20,7 +20,7 @@ const DummyData = [
         comment: "I can be funny sometimes but people give me way too much credit. In face Ace Ventura wasn't that funny.",
         reactions:{
             likes: 0,
-            dislikes: 0
+            shares: 0
         }
     },
     {
@@ -28,7 +28,7 @@ const DummyData = [
         comment: "I am a king in the metal realm!!!!!!!!!!!!!",
         reactions:{
             likes: 0,
-            dislikes: 0
+            shares: 0
         }
     },
     {
@@ -36,7 +36,7 @@ const DummyData = [
         comment: "I love life.",
         reactions:{
             likes: 0,
-            dislikes: 0
+            shares: 0
         }
     },
     {
@@ -44,7 +44,7 @@ const DummyData = [
         comment: "Were are we going?",
         reactions:{
             likes: 0,
-            dislikes: 0
+            shares: 0
         }
     }
 ];
