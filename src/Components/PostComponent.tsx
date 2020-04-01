@@ -34,7 +34,7 @@ const PostComponent = ({ name, comment, reactions }: PostPropsInterface) => {
         setReaction({
             ...reaction,
             like: !reaction.like,
-            likes: !reaction.likes ? reaction.likes + 1 : reaction.likes - 1
+            likes: !reaction.like ? reaction.likes + 1 : reaction.likes - 1
         });
     };
 
@@ -42,7 +42,7 @@ const PostComponent = ({ name, comment, reactions }: PostPropsInterface) => {
         setReaction({
             ...reaction,
             share: !reaction.share,
-            shares: !reaction.shares ? reaction.shares + 1 : reaction.shares - 1
+            shares: !reaction.share ? reaction.shares + 1 : reaction.shares - 1
         });
     }
 
