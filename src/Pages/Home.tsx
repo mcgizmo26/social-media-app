@@ -8,6 +8,7 @@ import HeaderNavigation from '../Components/HeaderNavigation';
 import PageHeader from '../Components/PageHeader';
 import NewPostComponent from '../Components/NewPostComponent';
 import PostComponent from '../Components/PostComponent';
+import HomepagePanelPagelet from '../Components/HomepagePanelPaglet';
 import DummyDataGetter from '../dummyData/dummyData';
 
 
@@ -17,14 +18,19 @@ const Home = () => {
     return (
         <div className="app">
             <HeaderNavigation />
+            <PageHeader title={"Home"} />
             <div className="pageBody">
-                <PageHeader title={"Home"} />
-                <NewPostComponent />
-                {
-                    dummyDataArray.map((el, idx) => {
-                        return <PostComponent key={el.name + idx} name={el.name} comment={el.comment} reactions={el.reactions} />
-                    })
-                }
+                <div className="homeBodyLeftContainer">
+                    <NewPostComponent />
+                    {
+                        dummyDataArray.map((el, idx) => {
+                            return <PostComponent key={el.name + idx} name={el.name} comment={el.comment} reactions={el.reactions} />
+                        })
+                    }
+                </div>
+                <div className="homeBodyRightContainer">
+                    <HomepagePanelPagelet />
+                </div>
             </div>
         </div>
     )

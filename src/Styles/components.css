@@ -47,13 +47,14 @@
 
 /* Page Container Styles */
 .pageHeaderContainer {
+    margin: 0rem 1rem 0rem 1rem;
+    margin-top: 5%;
+    padding-left: 1rem;
     border-bottom: 1px solid rgb(136, 134, 134);
-    width: 100%;
 }
 
 /* New Post Component */
 .newPostContainer {
-    width: 50%;
     min-height: 10%;
     max-height: 30%;
     border: 1px solid rgb(136, 134, 134);
@@ -76,7 +77,6 @@
 
 /* Post container Styles */
 .postContainer {
-    width: 50%;
     max-height: 20%;
     border: 1px solid rgb(136, 134, 134);
     border-radius: 10px;
@@ -109,8 +109,26 @@
     width: 18%;
 }
 
+/* Home Page  */
+.homeBodyLeftContainer {
+    display: inline-block;
+    width: 60%;
+    padding-left: 10%;
+}
 
-/* Media queries start */
+.homeBodyRightContainer {
+    display: inline-block;
+    position: fixed;
+    padding: 0% 2% 0% 2%;
+    width: 25%;
+}
+
+.homePagelet {
+    display: flex;
+    justify-content: center;
+}
+
+/* Media Queries Start */
 @media only screen and (max-width: 1200px) {
     .reactionLikeWrapper {
         width: 18%;
