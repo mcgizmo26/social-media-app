@@ -124,8 +124,15 @@
 }
 
 .homePagelet {
+    margin-top: 10px;
+    border: 1px solid rgb(211,211,211);
+}
+
+.homePageletHeader {
     display: flex;
     justify-content: center;
+    padding: 10px;
+    border-bottom: 1px solid rgb(211,211,211);
 }
 
 /* Media Queries Start */

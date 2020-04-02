@@ -2,9 +2,11 @@
 import React from 'react';
 
 
+// Interfaces **********************************************************
 interface PageHeaderProps {
     title: string
 }
+
 
 // React Component *****************************************************
 const PageHeader = ({title}: PageHeaderProps) => {
