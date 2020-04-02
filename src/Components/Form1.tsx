@@ -39,7 +39,7 @@ const Form1 = ({ signInArr, onChange, onClick }: Form1Interface) => {
             }
 
             <Button
-                btnClassName={"primaryBtn signUpButton"}
+                btnClassName={"primaryBtn lgBtn signUpButton"}
                 name={"Create Account"}
                 onClick={onClick}
             />
