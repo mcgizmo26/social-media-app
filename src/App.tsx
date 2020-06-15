@@ -1,5 +1,7 @@
 // External Libraries **************************************************
 import React from 'react';
+// import { createStore, combineReducers } from 'redux';
+// import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 

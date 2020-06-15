@@ -34,7 +34,9 @@ const NewPostComponent = () => {
         event.preventDefault();
         console.log("button hit");
         axios.post('/api/createPost', {
+            userId: 6,
             name: "User User",
+            commentId: 8,
             comment: comment,
             reactions:{
                 likes: 0,
