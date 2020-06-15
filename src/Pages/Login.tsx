@@ -1,6 +1,6 @@
 // External Libraries **************************************************
 import React, { useState, MouseEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 
 // Project Imports *****************************************************
@@ -9,6 +9,7 @@ import Form1 from '../Components/Form1';
 
 // React Component *****************************************************
 const Login = () => {
+    const history = useHistory();
     const [userCreds, setCreds] = useState(
         {
             username: "",
@@ -32,7 +33,8 @@ const Login = () => {
     };
 
     const onClickHandler = (event: MouseEvent<HTMLButtonElement>) => {
-
+        event.preventDefault();
+        history.push("/app/home");
     };
 
     return (

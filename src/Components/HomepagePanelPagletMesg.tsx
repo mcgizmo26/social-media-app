@@ -3,7 +3,7 @@ import React from 'react';
 
 
 // React Component *****************************************************
-const HomepagePanelPagelet = () => {
+const HomepagePanelPageletMesg = () => {
     return (
         <div className="homePagelet">
             <div className="homePageletHeader">Message a Friend</div>
@@ -22,4 +22,4 @@ const HomepagePanelPagelet = () => {
     )
 };
 
-export default HomepagePanelPagelet;
+export default HomepagePanelPageletMesg;

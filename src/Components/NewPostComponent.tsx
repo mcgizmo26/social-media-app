@@ -3,11 +3,13 @@ import React, { useState, useEffect, useRef } from 'react';
 
 
 import Button from './Button';
+import axios from 'axios';
 
 // React Component *****************************************************
 const NewPostComponent = () => {
     const characterLength: number = 100;
     const [count, setCount] = useState(characterLength);
+    const [comment, setComment] = useState("");
     const textArea = useRef<HTMLTextAreaElement>(null);
 
     function autosize(this: HTMLTextAreaElement) {
@@ -24,8 +26,22 @@ const NewPostComponent = () => {
     });
 
     const changeHandler = (event: React.FormEvent<HTMLTextAreaElement>) => {
+        setComment(event.currentTarget.value);
         setCount( characterLength - event.currentTarget.value.length );
     };
+
+    const postNewComponent = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
+        console.log("button hit");
+        axios.post('/api/createPost', {
+            name: "User User",
+            comment: comment,
+            reactions:{
+                likes: 0,
+                shares: 0
+            }
+        });
+    }
 
     return (
         <div className="newPostContainer">
@@ -45,7 +61,7 @@ const NewPostComponent = () => {
             <Button
                 btnClassName={"primaryBtn smBtn signUpButton"}
                 name={"Comment"}
-                onClick={() => {}}
+                onClick={postNewComponent}
             />
             </div>
         </div>

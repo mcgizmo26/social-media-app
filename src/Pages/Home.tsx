@@ -1,6 +1,6 @@
 // External Libraries **************************************************
-import React from 'react';
-
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 // Project Imports *****************************************************
 import '../Styles/app.css';
@@ -8,13 +8,47 @@ import HeaderNavigation from '../Components/HeaderNavigation';
 import PageHeader from '../Components/PageHeader';
 import NewPostComponent from '../Components/NewPostComponent';
 import PostComponent from '../Components/PostComponent';
-import HomepagePanelPagelet from '../Components/HomepagePanelPaglet';
-import DummyDataGetter from '../dummyData/dummyData';
+import HomepagePanelPageletMesg from '../Components/HomepagePanelPagletMesg';
+
+
+// Interfaces **********************************************************
+interface post {
+    name: string,
+    comment: string,
+    reactions: {
+        likes: number,
+        shares: number
+    }
+}
 
 
 // React Component *****************************************************
 const Home = () => {
-    let dummyDataArray = DummyDataGetter();
+
+    const [dummyData , setDummyData] = useState<string>("");
+
+    useEffect( () => {
+        if(window.location.pathname === '/'){
+            window.location.pathname = '/app/home';
+        }
+    });
+
+    useEffect(() => {
+        axios.get(`/api/home`)
+        .then(function (response) {
+            // handle success
+            if(response.data){
+                setDummyData(response.data.map((el: post, idx: number) => {
+                    return <PostComponent key={el.name + idx} name={el.name} comment={el.comment} reactions={el.reactions} />
+                }));
+            };
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+          });
+    }, []);
+
     return (
         <div className="app">
             <HeaderNavigation />
@@ -23,13 +57,11 @@ const Home = () => {
                 <div className="homeBodyLeftContainer">
                     <NewPostComponent />
                     {
-                        dummyDataArray.map((el, idx) => {
-                            return <PostComponent key={el.name + idx} name={el.name} comment={el.comment} reactions={el.reactions} />
-                        })
+                        dummyData
                     }
                 </div>
                 <div className="homeBodyRightContainer">
-                    <HomepagePanelPagelet />
+                    <HomepagePanelPageletMesg />
                 </div>
             </div>
         </div>
