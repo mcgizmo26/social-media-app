@@ -34,7 +34,7 @@ const Home = () => {
     });
 
     useEffect(() => {
-        axios.get(`/api/home`)
+        axios.get(`/posts/home`)
         .then(function (response) {
             // handle success
             if(response.data){

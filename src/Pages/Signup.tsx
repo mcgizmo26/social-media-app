@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import '../Styles/app.css';
 import Form1 from '../Components/Form1';
 import FormValidation from '../Functions/FormValidation';
+import axios from 'axios';
 
 
 // React component *****************************************************
@@ -40,9 +41,32 @@ const Signup = () => {
 
     };
 
-    const onClickHandler = (event: MouseEvent<HTMLButtonElement>) => {
+    const onClickHandler = async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         FormValidation();
+
+        let sndObj = await FormValidation();
+
+        if (sndObj) {
+            const errorContainer = document.getElementById('form1-error-container');
+            if (errorContainer) errorContainer.innerHTML = "";
+
+            try {
+                axios.post('/authenticate/signup', sndObj)
+                    .then(res => {
+                        console.log(res);
+                    })
+                    .catch(err => {
+                        if (err.response.status === 409 && errorContainer) {
+                            errorContainer.innerHTML = err.response.data;
+                        }
+                    })
+            } catch (err) {
+                if (errorContainer) {
+                    errorContainer.innerHTML = "Oops something went wrong. Try again later.";
+                }
+            }
+        };
     };
 
     return (

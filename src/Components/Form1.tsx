@@ -43,6 +43,8 @@ const Form1 = ({ signInArr, onChange, onClick }: Form1Interface) => {
                 name={"Create Account"}
                 onClick={onClick}
             />
+
+            <div id="form1-error-container" className="errorText"></div>
         </form>
     )
 };
