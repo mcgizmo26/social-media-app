@@ -1,13 +1,6 @@
 const FormValidation = () => {
     const htmlNodeList = document.querySelectorAll("input");
-    const fields: { [key: string]: boolean | string } = {
-        firstname: false,
-        lastname: false,
-        email: false,
-        phone: false,
-        password: false,
-        verifyPassword: false
-    };
+    const fields: { [key: string]: boolean | string } = {};
 
     let password: string = "";
     let count: number = 0;

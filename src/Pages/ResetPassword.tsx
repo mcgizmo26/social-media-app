@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 
-// Project Imports ***************************************************** 
+// Project Imports *****************************************************
 import Form1 from '../Components/Form1';
 
 
@@ -39,6 +39,7 @@ const ResetPassword = () => {
                 <h1>Be Social</h1>
                 <Form1
                     signInArr={signInArr}
+                    name="Reset password"
                     onChange={onInputChangeHandler}
                     onClick={onClickHandler}
                 />

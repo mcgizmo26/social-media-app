@@ -1,13 +1,14 @@
 // External Libraries **************************************************
 import React, { useState, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 // Project Imports *****************************************************
 import '../Styles/app.css';
 import Form1 from '../Components/Form1';
 import FormValidation from '../Functions/FormValidation';
-import axios from 'axios';
+
 
 
 // React component *****************************************************
@@ -41,11 +42,10 @@ const Signup = () => {
 
     };
 
-    const onClickHandler = async (event: MouseEvent<HTMLButtonElement>) => {
+    const onClickHandler = (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        FormValidation();
 
-        let sndObj = await FormValidation();
+        let sndObj = FormValidation();
 
         if (sndObj) {
             const errorContainer = document.getElementById('form1-error-container');
@@ -54,7 +54,7 @@ const Signup = () => {
             try {
                 axios.post('/authenticate/signup', sndObj)
                     .then(res => {
-                        console.log(res);
+
                     })
                     .catch(err => {
                         if (err.response.status === 409 && errorContainer) {
@@ -75,6 +75,7 @@ const Signup = () => {
                 <h1>Be Social</h1>
                 <Form1
                     signInArr={signInArr}
+                    name= "Create Account"
                     onChange={onInputChangeHandler}
                     onClick={onClickHandler}
                 />

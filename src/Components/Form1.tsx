@@ -10,6 +10,7 @@ import Button from '../Components/Button';
 // Interfaces **********************************************************
 interface Form1Interface {
     signInArr: Array<SigninArrObj>,
+    name: string,
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
 };
@@ -22,7 +23,7 @@ interface SigninArrObj {
 
 
 // React Component *****************************************************
-const Form1 = ({ signInArr, onChange, onClick }: Form1Interface) => {
+const Form1 = ({ signInArr, name, onChange, onClick }: Form1Interface) => {
     return (
         <form className="form1">
             {
@@ -40,7 +41,7 @@ const Form1 = ({ signInArr, onChange, onClick }: Form1Interface) => {
 
             <Button
                 btnClassName={"primaryBtn lgBtn signUpButton"}
-                name={"Create Account"}
+                name={name}
                 onClick={onClick}
             />
 

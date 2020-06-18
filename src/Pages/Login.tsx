@@ -1,9 +1,11 @@
 // External Libraries **************************************************
 import React, { useState, MouseEvent } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 
 // Project Imports *****************************************************
+import FormValidation from '../Functions/FormValidation';
 import Form1 from '../Components/Form1';
 
 
@@ -34,7 +36,30 @@ const Login = () => {
 
     const onClickHandler = (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        history.push("/app/home");
+
+        let sndObj = FormValidation();
+
+        if (sndObj) {
+            const errorContainer = document.getElementById('form1-error-container');
+            if (errorContainer) errorContainer.innerHTML = "";
+
+            try {
+                axios.post('/authenticate/login', sndObj)
+                    .then(res => {
+                        // console.log(res);
+                        history.push("/app/home");
+                    })
+                    .catch(err => {
+                        if (err.response.status === 401 && errorContainer) {
+                            errorContainer.innerHTML = err.response.data;
+                        }
+                    })
+            } catch (err) {
+                if (errorContainer) {
+                    errorContainer.innerHTML = "Oops something went wrong. Try again later.";
+                }
+            }
+        }
     };
 
     return (
@@ -43,6 +68,7 @@ const Login = () => {
                 <h1>Be Social</h1>
                 <Form1
                     signInArr={signInArr}
+                    name = "Log In"
                     onChange={onInputChangeHandler}
                     onClick={onClickHandler}
                 />
