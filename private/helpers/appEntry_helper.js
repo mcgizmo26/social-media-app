@@ -1,5 +1,5 @@
 const db = require('./db_helper');
-// const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 
 const checkIfEmailExist = async (email, expressRes) => {
     const query = `
@@ -19,12 +19,16 @@ const checkIfUserExist = async (user, expressRes) => {
             FROM application_schema.users
             WHERE email = $1`;
     const args = [user.email];
-    const queryResults = await (query, args, expressRes);
+    const queryResults = await db(query, args, expressRes);
 
-    console.log(queryResults.row)
-    return queryResults;
+    return queryResults.rows;
+};
+
+const verifyPassword = async (password, encryptedPassword, expressRes) => {
+    const matches = await bcrypt.compare(password, encryptedPassword);
+    return matches;
 };
 
 
 
-module.exports = { checkIfEmailExist, checkIfUserExist };
+module.exports = { checkIfEmailExist, checkIfUserExist, verifyPassword };

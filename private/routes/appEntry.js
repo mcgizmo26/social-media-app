@@ -2,7 +2,7 @@
 const routes = require('express').Router();
 
 const User = require('../models/User');
-const { checkIfEmailExist, checkIfUserExist } = require('../helpers/appEntry_helper');
+const { checkIfEmailExist, checkIfUserExist, verifyPassword } = require('../helpers/appEntry_helper');
 
 
 // Signup ****************************************************************************
@@ -20,8 +20,22 @@ routes.post('/signup', async (req, res) => {
 
 
 // Login *****************************************************************************
-routes.post('/login', async (res, req) => {
-    await checkIfUserExist();
+routes.post('/login', async (req, res) => {
+    const signin = req.body;
+    const exists = await checkIfUserExist(signin, res);
+
+    if(exists.length === 0){
+        res.status(404).send('User not found');
+    } else {
+        console.log(exists[0]);
+        const matches = await verifyPassword(signin.password, exists[0].password);
+        console.log(matches);
+        if(matches){
+            res.status(200);
+        } else {
+            res.status(404).send('Password does not match');
+        }
+    }
 });
 
 
