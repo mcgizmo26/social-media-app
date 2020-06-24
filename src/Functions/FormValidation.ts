@@ -13,6 +13,7 @@ const FormValidation = () => {
             dataName.innerHTML = `${el.placeholder} is a required field.`
         } else if(el.name !== "password" && el.name !== "verifyPassword"){
             fields[el.name] = el.value;
+            ++count;
         } else {
             switch(el.name){
                 case "password":
@@ -23,6 +24,7 @@ const FormValidation = () => {
                         dataName.innerHTML = "";
                         fields[el.name] = el.value;
                     }
+                    ++count;
                     password = el.value;
                     break;
                 case "verifyPassword":
@@ -32,16 +34,13 @@ const FormValidation = () => {
                         dataName.innerHTML = "";
                         fields[el.name] = el.value;
                     }
+                    ++count;
                     break;
                 default:
                 dataName.innerHTML = dataName.innerHTML === `${el.placeholder} is a required field.` ? "" : dataName.innerHTML;
             };
         }
     });
-
-    for (const key in fields) {
-        if(fields[key]) ++count;
-    }
 
     if(Object.keys(fields).length === count) {
         return fields;

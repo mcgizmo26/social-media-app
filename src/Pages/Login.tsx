@@ -43,15 +43,18 @@ const Login = () => {
             const errorContainer = document.getElementById('form1-error-container');
             if (errorContainer) errorContainer.innerHTML = "";
 
+            console.log(sndObj);
+
             try {
                 axios.post('/authenticate/login', sndObj)
                     .then(res => {
-                        console.log(res.data.token);
-                        // history.push("/home");
+                        if(res.status === 200){
+                            history.push(res.data.url);
+                        }
                     })
                     .catch(err => {
                         if (err.response.status === 401 && errorContainer) {
-                            errorContainer.innerHTML = err.response.data;
+                            errorContainer.innerHTML = err.response.data.message;
                         }
                     })
             } catch (err) {

@@ -20,14 +20,12 @@ router.post('/signup', passport.authenticate('signup', { session : false }) , as
 });
 
 router.post('/login', (req, res, next) => {
-    console.log('hit');
     passport.authenticate('local', { session: false }, (err, user, info) => {
-        user = delete user.password;
         try {
             if(err || !user){
-              const error = new Error('An Error occurred')
-              return next(error);
+              return res.status(401).json(info);
             }
+            user = delete user.password;
             req.login(user, { session : false }, (error) => {
               if( error ) return next(error)
 
@@ -38,10 +36,9 @@ router.post('/login', (req, res, next) => {
               //Sign the JWT token and populate the payload with the user email and id
               const token = jwt.sign({ user : body }, process.env.ACCESS_TOKEN_SECRET);
 
-              //Send back the token to the user via cookie
-              res.status(200)
-                  .cookie(process.env.APP_COOKIE, token, { expires: new Date(Date.now() + 600000), httpOnly: true })
-                  .send()
+              //Send back the token to the user
+              return res.cookie(process.env.APP_COOKIE, token, { expires: new Date(Date.now() + 600000), httpOnly: true })
+                        .json({ url: '/home' })
             });
         } catch (error) {
             return next(error);

@@ -42,11 +42,10 @@ passport.use('local', new LocalStrategy(
     async (email, password, done) => {
         try {
             const user = await checkIfUserExist({ email, password });
-            if (!user) {
+            if (!user.length) {
                 return done(null, false, { message : 'User doesn\'t exist'});
             } else {
                 const matches = await verifyPassword(password, user[0].password);
-
                 if (matches) {
                     return done(null, user[0], {message: 'Success'});
                 } else {
@@ -63,8 +62,8 @@ passport.use('local', new LocalStrategy(
 
 passport.use(new JWTstrategy(
     {
-        secretOrKey: 'test_secret',
-        jwtFromRequest: ExtractJWT.fromUrlQueryParameter('test_secret')
+        secretOrKey: process.env.APP_COOKIE,
+        jwtFromRequest: ExtractJWT.fromUrlQueryParameter(process.env.APP_COOKIE)
     },
     async (token, done) => {
         console.log('token:');
