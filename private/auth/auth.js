@@ -1,11 +1,15 @@
+// *********************************** App Variables *******************************
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 
+
+// *********************************** Local Variables *****************************
 const { createUser, checkIfUserExist, verifyPassword } = require('../helpers/appEntry_helper');
 
 
+// *********************************** App Strategies ******************************
 passport.use('signup', new LocalStrategy(
     {
         firstnameField: 'firstname',
@@ -53,7 +57,6 @@ passport.use('local', new LocalStrategy(
             console.log("there is an error")
             return done(error);
         }
-
     }
 ));
 

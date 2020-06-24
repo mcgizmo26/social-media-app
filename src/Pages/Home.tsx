@@ -29,7 +29,7 @@ const Home = () => {
 
     useEffect( () => {
         if(window.location.pathname === '/'){
-            window.location.pathname = '/app/home';
+            window.location.pathname = '/home';
         }
     });
 

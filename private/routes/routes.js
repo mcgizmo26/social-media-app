@@ -1,11 +1,17 @@
+// *********************************** App Variables *******************************
 const express = require('express');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
+
+// *********************************** Use Middleware ******************************
 const router = express.Router();
 
-//When the user sends a post request to this route, passport authenticates the user based on the
-//middleware created previously
+
+// *********************************** Routes **************************************
+/*When the user sends a post request to this route, passport authenticates the user based on the
+middleware created previously */
 router.post('/signup', passport.authenticate('signup', { session : false }) , async (req, res, next) => {
   res.json({
     message : 'Signup successful',
@@ -14,11 +20,8 @@ router.post('/signup', passport.authenticate('signup', { session : false }) , as
 });
 
 router.post('/login', (req, res, next) => {
-
-    console.log('hit endpoint');
-    console.log(req.body);
-
-    const middleware = passport.authenticate('local', { session: false }, (err, user, info) => {
+    console.log('hit');
+    passport.authenticate('local', { session: false }, (err, user, info) => {
         user = delete user.password;
         try {
             if(err || !user){
@@ -33,18 +36,17 @@ router.post('/login', (req, res, next) => {
               const body = { _id : user.id, email : user.email };
 
               //Sign the JWT token and populate the payload with the user email and id
-              const token = jwt.sign({ user : body },'top_secret');
+              const token = jwt.sign({ user : body }, process.env.ACCESS_TOKEN_SECRET);
 
-              //Send back the token to the user
-              return res.json({ token });
+              //Send back the token to the user via cookie
+              res.status(200)
+                  .cookie(process.env.APP_COOKIE, token, { expires: new Date(Date.now() + 600000), httpOnly: true })
+                  .send()
             });
         } catch (error) {
             return next(error);
         }
-    });
-
-    middleware(req, res, next);
-
+    })(req, res, next);
   });
 
 

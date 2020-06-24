@@ -1,13 +1,16 @@
+// *********************************** App Variables *******************************
 const { Client } = require('pg');
+require('dotenv').config();
 
-const config = require('../config');
 
+// *********************************** Local Variables *****************************
 const client = new Client({
-    connectionString: config.connectionString
+    connectionString: process.env.CONNECTION_STRING
 });
-
 client.connect();
 
+
+// *********************************** Exported Functions **************************
 const dbQuery = (query, params, expressRes) => {
     try {
         const results = client.query(query, params);

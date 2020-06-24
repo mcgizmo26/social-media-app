@@ -46,8 +46,8 @@ const Login = () => {
             try {
                 axios.post('/authenticate/login', sndObj)
                     .then(res => {
-                        // console.log(res);
-                        history.push("/app/home");
+                        console.log(res.data.token);
+                        // history.push("/home");
                     })
                     .catch(err => {
                         if (err.response.status === 401 && errorContainer) {

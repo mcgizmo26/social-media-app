@@ -12,9 +12,9 @@ import Logout from "../Components/Logout";
 const HeaderNavigation = () => {
     return(
         <div className="headerStyle">
-            <Link className="linkStyles" to="/app/home">Home</Link>
-            <Link className="linkStyles" to="/app/profile">Profile</Link>
-            <Link className="linkStyles" to="/app/settings">Settings</Link>
+            <Link className="linkStyles" to="/home">Home</Link>
+            <Link className="linkStyles" to="/profile">Profile</Link>
+            <Link className="linkStyles" to="/settings">Settings</Link>
             <Logout />
         </div>
     )

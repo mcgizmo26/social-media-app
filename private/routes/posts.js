@@ -6,6 +6,7 @@ routes.get('/', (req, res) => {
 });
 
 routes.get('/home', (req, res) => {
+    console.log('hit');
     try {
         if (!fs.existsSync('./MockData/comment.json')) {
 

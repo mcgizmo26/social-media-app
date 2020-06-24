@@ -1,8 +1,8 @@
 // *********************************** App Variables *******************************
 const express = require('express');
 const passport = require('passport');
+require('dotenv').config();
 
-const config = require('./config');
 const routes = require('./routes/routes');
 const secureRoutes = require('./routes/secure-routes');
 
@@ -18,7 +18,7 @@ app.use(passport.session());
 
 // *********************************** Routes **************************************
 app.use('/authenticate', routes);
-app.use('/user', passport.authenticate('jwt', { session: false }), secureRoutes);
+app.use('/app', passport.authenticate('jwt', { session: false }), secureRoutes);
 
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
@@ -26,6 +26,6 @@ app.use(function (err, req, res, next) {
 });
 
 // *********************************** Start Server ********************************
-app.listen(config.port, () => {
-    console.log('Server started')
+app.listen(process.env.PORT, () => {
+    console.log('Server started');
 });
