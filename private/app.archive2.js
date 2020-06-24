@@ -1,31 +1,35 @@
 // *********************************** App Variables *******************************
 const express = require('express');
-const passport = require('passport');
 
 const config = require('./config');
-const routes = require('./routes/routes');
-const secureRoutes = require('./routes/secure-routes');
+const posts = require('./routes/posts');
+const appEntry = require('./routes/appEntry');
 
 
 // *********************************** Use Middleware ******************************
 const app = express();
-require('./auth/auth');
-app.use(express.json());
 
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(express.json());
 
 
 // *********************************** Routes **************************************
-app.use('/authenticate', routes);
-app.use('/user', passport.authenticate('jwt', { session: false }), secureRoutes);
 
+app.use('/posts', posts);
+app.use('/authenticate', appEntry);
+
+
+// *********************************** Handle Errors *******************************
 app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.json({ error: err });
+  res.status(err.status || 500);
+  res.json({ error: err });
 });
+
+
 
 // *********************************** Start Server ********************************
 app.listen(config.port, () => {
-    console.log('Server started')
+  console.log('Server started')
 });
+
+
+

@@ -12,6 +12,26 @@ const checkIfEmailExist = async (email, expressRes) => {
     return queryResults.rows;
 };
 
+const createUser = async (user, expressRes) => {
+    const exists = checkIfEmailExist(user.email);
+
+    if (exists) {
+        const query = `
+            INSERT INTO application_schema.users
+            (firstname, lastname, email, password)
+            VALUES ($1, $2, $3, $4 )`;
+        const args = [user.firstname, user.lastname, user.email, bcrypt.hashSync(user.password, 2)];
+        const queryResults = await db(query, args, expressRes);
+
+        return queryResults.rows;
+    } else {
+        return false;
+    }
+
+
+    // expressRes.sendStatus(200);
+};
+
 
 const checkIfUserExist = async (user, expressRes) => {
     const query = `
@@ -24,11 +44,11 @@ const checkIfUserExist = async (user, expressRes) => {
     return queryResults.rows;
 };
 
-const verifyPassword = async (password, encryptedPassword, expressRes) => {
+const verifyPassword = async (password, encryptedPassword) => {
     const matches = await bcrypt.compare(password, encryptedPassword);
     return matches;
 };
 
 
 
-module.exports = { checkIfEmailExist, checkIfUserExist, verifyPassword };
+module.exports = { checkIfEmailExist, checkIfUserExist, verifyPassword, createUser };

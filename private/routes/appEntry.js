@@ -27,9 +27,8 @@ routes.post('/login', async (req, res) => {
     if(exists.length === 0){
         res.status(404).send('User not found');
     } else {
-        console.log(exists[0]);
         const matches = await verifyPassword(signin.password, exists[0].password);
-        console.log(matches);
+
         if(matches){
             res.status(200);
         } else {

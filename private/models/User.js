@@ -12,17 +12,6 @@ class User {
 
         return db(query, args, expressRes);
     };
-
-    async create(user, expressRes){
-        const query = `
-            INSERT INTO application_schema.users
-            (firstname, lastname, email, password)
-            VALUES ($1, $2, $3, $4 )`;
-        const args = [user.firstname, user.lastname, user.email, bcrypt.hashSync(user.password, 2)];
-        await db(query, args, expressRes);
-
-        expressRes.sendStatus(200);
-    };
 };
 
 module.exports = User;
