@@ -26,7 +26,7 @@ router.post('/login', (req, res, next) => {
               return res.status(401).json(info);
             }
             user = delete user.password;
-            req.login(user, { session : false }, (error) => {
+            req.login(user, { session : false }, async (error) => {
               if( error ) return next(error)
 
               //We don't want to store the sensitive information such as the
@@ -34,11 +34,14 @@ router.post('/login', (req, res, next) => {
               const body = { _id : user.id, email : user.email };
 
               //Sign the JWT token and populate the payload with the user email and id
-              const token = jwt.sign({ user : body }, process.env.ACCESS_TOKEN_SECRET);
+              const token = await jwt.sign({ user : body }, process.env.ACCESS_TOKEN_SECRET);
+
+              console.log(process.env.APP_COOKIE);
+              console.log(token);
 
               //Send back the token to the user
               return res.cookie(process.env.APP_COOKIE, token, { expires: new Date(Date.now() + 600000), httpOnly: true })
-                        .json({ url: '/home' })
+                        .json({ url: '/home', token: token })
             });
         } catch (error) {
             return next(error);

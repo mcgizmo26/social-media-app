@@ -2,8 +2,8 @@
 const express = require('express');
 
 const config = require('./config');
-const posts = require('./routes/posts');
-const appEntry = require('./routes/appEntry');
+const posts = require('../routes/posts');
+const appEntry = require('./appEntry.archive');
 
 
 // *********************************** Use Middleware ******************************

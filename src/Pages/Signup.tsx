@@ -82,7 +82,7 @@ const Signup = () => {
                 <div>
                     <Link to="/resetpassword">Reset Password</Link>
                     <span> | </span>
-                    <Link to="/login">Sign in to your account</Link>
+                    <Link to="/">Sign in to your account</Link>
                 </div>
             </div>
         </div>

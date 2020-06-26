@@ -18,7 +18,6 @@ passport.use('signup', new LocalStrategy(
         passwordField: 'password'
     },
     (firstname, lastname, email, password, done) => {
-        console.log(firstname, lastname, email, password);
         try {
             const user = createUser({
                 firstname,
@@ -53,7 +52,6 @@ passport.use('local', new LocalStrategy(
                 }
             }
         } catch (error) {
-            console.log("there is an error")
             return done(error);
         }
     }
@@ -65,9 +63,7 @@ passport.use(new JWTstrategy(
         secretOrKey: process.env.APP_COOKIE,
         jwtFromRequest: ExtractJWT.fromUrlQueryParameter(process.env.APP_COOKIE)
     },
-    async (token, done) => {
-        console.log('token:');
-        console.log(token);
+    (token, done) => {
         try {
             return done(null, token.user);
         } catch (error) {

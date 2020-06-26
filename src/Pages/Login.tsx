@@ -2,11 +2,20 @@
 import React, { useState, MouseEvent } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 
 // Project Imports *****************************************************
 import FormValidation from '../Functions/FormValidation';
 import Form1 from '../Components/Form1';
+import { userAuthenticate } from  '../store/actions/user'
+// import AUTH from '../Components/Auth';
+
+
+// Interfaces **********************************************************
+interface RootState {
+    authenticated: boolean
+};
 
 
 // React Component *****************************************************
@@ -18,10 +27,11 @@ const Login = () => {
             password: ""
         }
     );
+    const dispatch = useDispatch();
 
     const signInArr = [
         { name: "email", placeHolder: "Email", type: "email" },
-        { name: "password", placeHolder: "Password", type: "text" },
+        { name: "password", placeHolder: "Password", type: "password" },
     ];
 
     const onInputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,12 +53,11 @@ const Login = () => {
             const errorContainer = document.getElementById('form1-error-container');
             if (errorContainer) errorContainer.innerHTML = "";
 
-            console.log(sndObj);
-
             try {
                 axios.post('/authenticate/login', sndObj)
                     .then(res => {
                         if(res.status === 200){
+                            dispatch(userAuthenticate(true));
                             history.push(res.data.url);
                         }
                     })

@@ -44,7 +44,7 @@ const ResetPassword = () => {
                     onClick={onClickHandler}
                 />
                 <div>
-                    <Link to="/login">Sign in to your account</Link>
+                    <Link to="/">Sign in to your account</Link>
                     <span> | </span>
                     <Link to="/signup">Sign up for an account</Link>
                 </div>
