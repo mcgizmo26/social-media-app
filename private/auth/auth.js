@@ -9,26 +9,39 @@ const ExtractJWT = require('passport-jwt').ExtractJwt;
 const { createUser, checkIfUserExist, verifyPassword } = require('../helpers/appEntry_helper');
 
 
+const cookieExtractor = function (req) {
+    var token = null;
+    if (req && req.cookies) token = req.cookies['jwt'];
+
+    return token;
+};
+
+
 // *********************************** App Strategies ******************************
 passport.use('signup', new LocalStrategy(
     {
-        firstnameField: 'firstname',
-        lastnameField: 'lastname',
-        emailField: 'email',
-        passwordField: 'password'
+        usernameField: 'email',
+        passwordField: 'password',
+        passReqToCallback: true
     },
-    (firstname, lastname, email, password, done) => {
+    async (req, email, password, done) => {
+        let firstname = req.body.firstname,
+                lastname = req.body.lastname;
         try {
-            const user = createUser({
+            const user = await createUser({
                 firstname,
                 lastname,
                 email,
                 password
             });
 
-            return done(null, user);
+            if(user) return done(null, user, { message: 'Success'});
+
+            return done(null, false, { message: 'A User with this email already exists.'})
+
+
         } catch (error) {
-            done(error);
+            return done(error);
         }
     }
 ));
@@ -42,13 +55,13 @@ passport.use('local', new LocalStrategy(
         try {
             const user = await checkIfUserExist({ email, password });
             if (!user.length) {
-                return done(null, false, { message : 'User doesn\'t exist'});
+                return done(null, false, { message: 'User doesn\'t exist' });
             } else {
                 const matches = await verifyPassword(password, user[0].password);
                 if (matches) {
-                    return done(null, user[0], {message: 'Success'});
+                    return done(null, user[0], { message: 'Success' });
                 } else {
-                    return done(null, false, { message : 'Incorrect password'});
+                    return done(null, false, { message: 'Incorrect password' });
                 }
             }
         } catch (error) {
@@ -60,12 +73,12 @@ passport.use('local', new LocalStrategy(
 
 passport.use(new JWTstrategy(
     {
-        secretOrKey: process.env.APP_COOKIE,
-        jwtFromRequest: ExtractJWT.fromUrlQueryParameter(process.env.APP_COOKIE)
+        jwtFromRequest: cookieExtractor,
+        secretOrKey: process.env.ACCESS_TOKEN_SECRET
     },
-    (token, done) => {
+    async (user, done) => {
         try {
-            return done(null, token.user);
+            return done(null, user);
         } catch (error) {
             done(error);
         }

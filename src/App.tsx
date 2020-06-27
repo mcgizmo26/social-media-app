@@ -38,11 +38,11 @@ function App() {
 			<Router>
 				<Switch>
 					<Route exact path="/" component={Login} />
+					<Route exact path="/resetpassword/" component={ResetPassword} />
+					<Route exact path="/signup" component={Signup} />
 					<ProtectedRoute exact path="/home" component={Home} />
 					<ProtectedRoute exact path="/profile" component={Profile} />
 					<ProtectedRoute exact path="/settings" component={Settings} />
-					<ProtectedRoute exact path="/resetpassword/" component={ResetPassword} />
-					<ProtectedRoute exact path="/signup" component={Signup} />
 				</Switch>
 			</Router>
 		</Provider>

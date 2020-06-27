@@ -1,6 +1,9 @@
+// *********************************** App Variables *******************************
 const db = require('./db_helper');
 const bcrypt = require('bcrypt');
 
+
+// *********************************** Helper Functions ****************************
 const checkIfEmailExist = async (email, expressRes) => {
     const query = `
         Select email
@@ -13,9 +16,9 @@ const checkIfEmailExist = async (email, expressRes) => {
 };
 
 const createUser = async (user, expressRes) => {
-    const exists = checkIfEmailExist(user.email);
+    const exists = await checkIfEmailExist(user.email);
 
-    if (exists) {
+    if (!exists.length) {
         const query = `
             INSERT INTO application_schema.users
             (firstname, lastname, email, password)
@@ -28,10 +31,7 @@ const createUser = async (user, expressRes) => {
         return false;
     }
 
-
-    // expressRes.sendStatus(200);
 };
-
 
 const checkIfUserExist = async (user, expressRes) => {
     const query = `
@@ -48,7 +48,6 @@ const verifyPassword = async (password, encryptedPassword) => {
     const matches = await bcrypt.compare(password, encryptedPassword);
     return matches;
 };
-
 
 
 module.exports = { checkIfEmailExist, checkIfUserExist, verifyPassword, createUser };

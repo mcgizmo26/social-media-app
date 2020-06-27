@@ -1,6 +1,7 @@
 // External Libraries **************************************************
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 // Project Imports *****************************************************
 import '../Styles/app.css';
@@ -9,6 +10,7 @@ import PageHeader from '../Components/PageHeader';
 import NewPostComponent from '../Components/NewPostComponent';
 import PostComponent from '../Components/PostComponent';
 import HomepagePanelPageletMesg from '../Components/HomepagePanelPagletMesg';
+import { userAuthenticate } from '../store/actions/user';
 
 
 // Interfaces **********************************************************
@@ -24,17 +26,11 @@ interface post {
 
 // React Component *****************************************************
 const Home = () => {
-
     const [dummyData , setDummyData] = useState<string>("");
-
-    useEffect( () => {
-        if(window.location.pathname === '/'){
-            window.location.pathname = '/home';
-        }
-    });
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        axios.get(`/app/home`)
+        axios.get(`/app/posts/getComments`)
         .then(function (response) {
             // handle success
             if(response.data){
@@ -44,10 +40,15 @@ const Home = () => {
             };
           })
           .catch(function (error) {
-            // handle error
-            console.log(error);
+            if(error.response.status === 401 || error.response.status === 403){
+                // Must wrap useDispatch in an IIFE to prevent useDispatch in useEffect error.
+                (async () => {
+                    window.location.pathname = '/';
+                    dispatch(userAuthenticate(false));
+                })();
+            }
           });
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className="app">

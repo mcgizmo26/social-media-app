@@ -32,7 +32,6 @@ const NewPostComponent = () => {
 
     const postNewComponent = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
-        console.log("button hit");
         axios.post('/posts/createPost', {
             userId: 6,
             name: "User User",

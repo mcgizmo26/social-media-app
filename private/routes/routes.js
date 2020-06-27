@@ -12,42 +12,48 @@ const router = express.Router();
 // *********************************** Routes **************************************
 /*When the user sends a post request to this route, passport authenticates the user based on the
 middleware created previously */
-router.post('/signup', passport.authenticate('signup', { session : false }) , async (req, res, next) => {
-  res.json({
-    message : 'Signup successful',
-    user : req.user
-  });
+router.post('/signup', (req, res, next) => {
+	passport.authenticate('signup', { session: false }, async (err, user, info) => {
+		try {
+		if (!user) return res.status(403).json(info);
+
+		const body = { _id: user.user_id, email: user.email };
+		const token = await jwt.sign({ user: body }, process.env.ACCESS_TOKEN_SECRET);
+
+		return res.cookie(process.env.APP_COOKIE, token, { expires: new Date(Date.now() + process.env.COOKIE_EXP), httpOnly: true })
+			.json({ url: '/home'})
+		} catch(error){
+			return next(error);
+		}
+	})(req, res, next);
 });
 
 router.post('/login', (req, res, next) => {
-    passport.authenticate('local', { session: false }, (err, user, info) => {
-        try {
-            if(err || !user){
-              return res.status(401).json(info);
-            }
-            user = delete user.password;
-            req.login(user, { session : false }, async (error) => {
-              if( error ) return next(error)
+	passport.authenticate('local', { session: false }, (err, user, info) => {
+		try {
+			if (err || !user) return res.status(401).json(info);
 
-              //We don't want to store the sensitive information such as the
-              //user password in the token so we pick only the email and id
-              const body = { _id : user.id, email : user.email };
+			delete user.password;
 
-              //Sign the JWT token and populate the payload with the user email and id
-              const token = await jwt.sign({ user : body }, process.env.ACCESS_TOKEN_SECRET);
+			req.login(user, { session: false }, async (error) => {
+				if (error) return next(error)
 
-              console.log(process.env.APP_COOKIE);
-              console.log(token);
+				//We don't want to store the sensitive information such as the
+				//user password in the token so we pick only the email and id
+				const body = { _id: user.user_id, email: user.email };
 
-              //Send back the token to the user
-              return res.cookie(process.env.APP_COOKIE, token, { expires: new Date(Date.now() + 600000), httpOnly: true })
-                        .json({ url: '/home', token: token })
-            });
-        } catch (error) {
-            return next(error);
-        }
-    })(req, res, next);
-  });
+				//Sign the JWT token and populate the payload with the user email and id
+				const token = await jwt.sign({ user: body }, process.env.ACCESS_TOKEN_SECRET);
+
+				//Send back the token to the user
+				return res.cookie(process.env.APP_COOKIE, token, { expires: new Date(Date.now() + process.env.COOKIE_EXP), httpOnly: true })
+					.json({ url: '/home'})
+			});
+		} catch (error) {
+			return next(error);
+		}
+	})(req, res, next);
+});
 
 
 

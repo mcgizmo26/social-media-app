@@ -1,11 +1,23 @@
+// Project Imports *****************************************************
 import  { ADD_COMMENT, REMOVE_COMMENT } from '../actions/comment';
 import CommentModel from '../../models/comment';
 
+
+// Initial State *******************************************************
 const initialState = {
     comments: {}
 };
 
-export default (state = initialState, action) => {
+
+// Project Imports *****************************************************
+interface commentAction {
+    type: string,
+    comment: CommentModel
+};
+
+
+// Reducers ************************************************************
+export default (state = initialState, action: commentAction) => {
     switch (action.type){
         case ADD_COMMENT:
             const addedComment = action.comment;

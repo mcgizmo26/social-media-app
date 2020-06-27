@@ -1,11 +1,14 @@
+// *********************************** App Variables *******************************
 const routes = require('express').Router();
 const fs = require('fs');
 
+
+// *********************************** Routes **************************************
 routes.get('/', (req, res) => {
   res.status(200).json({ message: 'Connected!' });
 });
 
-routes.get('/home', (req, res) => {
+routes.get('/getComments', (req, res) => {
     try {
         if (!fs.existsSync('./MockData/comment.json')) {
 
