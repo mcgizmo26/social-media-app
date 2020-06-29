@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 
+const User = require('../../helpers/user/user_helpers');
+
 // *********************************** Use Middleware ******************************
 const router = express.Router();
 
@@ -15,14 +17,20 @@ middleware created previously */
 router.post('/signup', (req, res, next) => {
 	passport.authenticate('signup', { session: false }, async (err, user, info) => {
 		try {
-		if (!user) return res.status(403).json(info);
+			if (!user) return res.status(403).json(info);
 
-		const body = { _id: user.user_id, email: user.email };
-		const token = await jwt.sign({ user: body }, process.env.ACCESS_TOKEN_SECRET);
+			const success = User.createRefreshToken(user);
 
-		return res.cookie(process.env.APP_COOKIE, token, { expires: new Date(Date.now() + process.env.COOKIE_EXP), httpOnly: true })
-			.json({ url: '/home'})
-		} catch(error){
+			if (success) {
+
+				const token = User.createJWT(user);
+				return res.cookie(process.env.APP_COOKIE, token, { expires: new Date(Date.now() + process.env.COOKIE_EXP), httpOnly: true })
+					.json({ url: '/home' })
+			} else {
+				return res.status(500).json({ message: 'Something went wrong' });
+			};
+
+		} catch (error) {
 			return next(error);
 		}
 	})(req, res, next);
@@ -38,16 +46,17 @@ router.post('/login', (req, res, next) => {
 			req.login(user, { session: false }, async (error) => {
 				if (error) return next(error)
 
-				//We don't want to store the sensitive information such as the
-				//user password in the token so we pick only the email and id
-				const body = { _id: user.user_id, email: user.email };
+				const success = User.createRefreshToken(user);
 
-				//Sign the JWT token and populate the payload with the user email and id
-				const token = await jwt.sign({ user: body }, process.env.ACCESS_TOKEN_SECRET);
+				if (success) {
+					const token = User.createJWT(user);
 
-				//Send back the token to the user
-				return res.cookie(process.env.APP_COOKIE, token, { expires: new Date(Date.now() + process.env.COOKIE_EXP), httpOnly: true })
-					.json({ url: '/home'})
+					return res.cookie(process.env.APP_COOKIE, token, { expires: new Date(Date.now() + process.env.COOKIE_EXP), httpOnly: true })
+						.json({ url: '/home' });
+				} else {
+					return res.status(500).json({ message: 'Something went wrong' });
+				}
+
 			});
 		} catch (error) {
 			return next(error);

@@ -2,11 +2,11 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const JWTstrategy = require('passport-jwt').Strategy;
-const ExtractJWT = require('passport-jwt').ExtractJwt;
+// const ExtractJWT = require('passport-jwt').ExtractJwt;
 
 
 // *********************************** Local Variables *****************************
-const { createUser, checkIfUserExist, verifyPassword } = require('../helpers/appEntry_helper');
+const User = require('../helpers/user/user_helpers');
 
 
 const cookieExtractor = function (req) {
@@ -28,7 +28,7 @@ passport.use('signup', new LocalStrategy(
         let firstname = req.body.firstname,
                 lastname = req.body.lastname;
         try {
-            const user = await createUser({
+            const user = await User.createUser({
                 firstname,
                 lastname,
                 email,
@@ -53,11 +53,11 @@ passport.use('local', new LocalStrategy(
     },
     async (email, password, done) => {
         try {
-            const user = await checkIfUserExist({ email, password });
+            const user = await User.checkIfUserExist({ email, password });
             if (!user.length) {
                 return done(null, false, { message: 'User doesn\'t exist' });
             } else {
-                const matches = await verifyPassword(password, user[0].password);
+                const matches = await User.verifyPassword(password, user.password);
                 if (matches) {
                     return done(null, user[0], { message: 'Success' });
                 } else {

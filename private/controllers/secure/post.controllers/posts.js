@@ -8,6 +8,26 @@ routes.get('/', (req, res) => {
   res.status(200).json({ message: 'Connected!' });
 });
 
+routes.post('/createPost', (req, res) => {
+    let reqBody = [];
+
+    req.on('data', chunk => {
+        reqBody.push(chunk);
+    }).on('end', () => {
+        reqBody = JSON.parse(Buffer.concat(reqBody).toString('utf8'));
+
+        try {
+            const fileToConvert = fs.readFileSync('./MockData/comment.json', 'utf8');
+            let parsedData = JSON.parse(fileToConvert);
+            parsedData.push(reqBody);
+            fs.writeFileSync('./MockData/comment.json', JSON.stringify(parsedData));
+            res.end();
+        } catch(err) {
+            res.end();
+        }
+    });
+});
+
 routes.get('/getComments', (req, res) => {
     try {
         if (!fs.existsSync('./MockData/comment.json')) {
@@ -30,24 +50,5 @@ routes.get('/getComments', (req, res) => {
     }
 });
 
-routes.post('/createPost', (req, res) => {
-    let reqBody = [];
-
-    req.on('data', chunk => {
-        reqBody.push(chunk);
-    }).on('end', () => {
-        reqBody = JSON.parse(Buffer.concat(reqBody).toString('utf8'));
-
-        try {
-            const fileToConvert = fs.readFileSync('./MockData/comment.json', 'utf8');
-            let parsedData = JSON.parse(fileToConvert);
-            parsedData.push(reqBody);
-            fs.writeFileSync('./MockData/comment.json', JSON.stringify(parsedData));
-            res.end();
-        } catch(err) {
-            res.end();
-        }
-    });
-});
 
 module.exports = routes;

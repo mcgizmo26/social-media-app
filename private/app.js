@@ -4,8 +4,8 @@ const passport = require('passport');
 require('dotenv').config();
 const cookies = require("cookie-parser");
 
-const routes = require('./routes/routes');
-const secureRoutes = require('./routes/secure.routes');
+const publicCtrl = require('./controllers/public/public');
+const secureRoutes = require('./controllers/secure/secure');
 
 
 // *********************************** Use Middleware ******************************
@@ -17,11 +17,10 @@ app.use(cookies());
 app.use(passport.initialize());
 
 
-// *********************************** Routes **************************************
-app.use('/authenticate', routes);
+// *********************************** Controllers **************************************
+app.use('/authenticate', publicCtrl);
 app.use('/app', passport.authenticate('jwt', { session: false }), secureRoutes);
 
-// app.use('/app', secureRoutes);
 
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);

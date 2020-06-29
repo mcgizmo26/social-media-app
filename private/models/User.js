@@ -1,5 +1,3 @@
-const bcrypt = require('bcrypt');
-
 const db = require('../helpers/db_helper');
 
 class User {
