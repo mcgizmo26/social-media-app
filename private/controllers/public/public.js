@@ -1,7 +1,7 @@
 // *********************************** App Variables *******************************
 const express = require('express');
 const passport = require('passport');
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 
@@ -49,7 +49,7 @@ router.post('/login', (req, res, next) => {
 				const success = User.createRefreshToken(user);
 
 				if (success) {
-					const token = User.createJWT(user);
+					const token = await User.createJWT(user);
 
 					return res.cookie(process.env.APP_COOKIE, token, { expires: new Date(Date.now() + process.env.COOKIE_EXP), httpOnly: true })
 						.json({ url: '/home' });

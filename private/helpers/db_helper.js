@@ -14,7 +14,6 @@ client.connect();
 const dbQuery = (query, params, expressRes) => {
     try {
         const results = client.query(query, params);
-
         return results;
     } catch(err) {
         expressRes.end();

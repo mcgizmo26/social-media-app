@@ -14,7 +14,6 @@ module.exports = {
             WHERE email = $1`;
         const args = [email];
         const queryResults = await db(query, args, expressRes);
-
         return queryResults.rows[0];
     },
 
@@ -54,16 +53,15 @@ module.exports = {
 
     createRefreshToken: async (user) => {
         // We don't want to store the sensitive information such as the user password in the token so we pick only the email and id
-        const body = { _id: user[0].user_id, email: user[0].email };
+        const body = { _id: user.user_id, email: user.email };
         //Sign the JWT token and populate the payload with the user email and id
         const token = await jwt.sign({ user: body }, process.env.ACCESS_TOKEN_SECRET);
         if (token) {
             const query = `
-                    INSERT INTO aplication_schema.users
-                    WHERE user_id = ${user.user_id}
-                    (security_token)
-                    VALUES ( $1 )`;
-            const args = [token];
+                    UPDATE application_schema.users
+                    SET security_token = $1
+                    WHERE user_id = $2 `;
+            const args = [token, user.user_id];
             const queryResults = await db(query, args);
 
             return queryResults.rows[0];
@@ -80,8 +78,8 @@ module.exports = {
         const args = [user.user_id];
         const queryResults = await db(query, args);
 
-        if(queryResults.rows[0]){
-            const body = { _id: user[0].user_id, email: user[0].email };
+        if(queryResults.rows[0].security_token){
+            const body = { _id: user.user_id, email: user.email };
             const token = await jwt.sign({ user: body }, process.env.ACCESS_TOKEN_SECRET);
 
             return token;

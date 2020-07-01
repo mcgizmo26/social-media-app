@@ -3,7 +3,7 @@ const express = require('express');
 
 
 // *********************************** Custom Variables ****************************
-const posts = require('./post.controllers/posts');
+const posts = require('./posts');
 
 
 // *********************************** Use Middleware ******************************

@@ -54,12 +54,12 @@ passport.use('local', new LocalStrategy(
     async (email, password, done) => {
         try {
             const user = await User.checkIfUserExist({ email, password });
-            if (!user.length) {
+            if (!user) {
                 return done(null, false, { message: 'User doesn\'t exist' });
             } else {
                 const matches = await User.verifyPassword(password, user.password);
                 if (matches) {
-                    return done(null, user[0], { message: 'Success' });
+                    return done(null, user, { message: 'Success' });
                 } else {
                     return done(null, false, { message: 'Incorrect password' });
                 }
