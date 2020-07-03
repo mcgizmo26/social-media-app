@@ -7,14 +7,7 @@ const JWTstrategy = require('passport-jwt').Strategy;
 
 // *********************************** Local Variables *****************************
 const User = require('../helpers/user/user_helpers');
-
-
-const cookieExtractor = function (req) {
-    var token = null;
-    if (req && req.cookies) token = req.cookies['jwt'];
-
-    return token;
-};
+const { cookieExtractor } = require('../helpers/auth_helper');
 
 
 // *********************************** App Strategies ******************************
@@ -71,7 +64,7 @@ passport.use('local', new LocalStrategy(
 ));
 
 
-passport.use(new JWTstrategy(
+passport.use('secure', new JWTstrategy(
     {
         jwtFromRequest: cookieExtractor,
         secretOrKey: process.env.ACCESS_TOKEN_SECRET
@@ -80,7 +73,13 @@ passport.use(new JWTstrategy(
         try {
             return done(null, user);
         } catch (error) {
-            done(error);
+            return done(error, null);
         }
     }
 ));
+
+// passport.use('logout', new JWTstrategy(
+//     {
+
+//     },
+// ));

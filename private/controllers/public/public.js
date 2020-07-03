@@ -1,11 +1,14 @@
 // *********************************** App Variables *******************************
 const express = require('express');
 const passport = require('passport');
-// const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 
+// *********************************** Custom Variables ****************************
 const User = require('../../helpers/user/user_helpers');
+const { getTokenFromDB } = require('../../helpers/auth_helper');
+const authenticate = require('./authenticate');
+
 
 // *********************************** Use Middleware ******************************
 const router = express.Router();
@@ -22,12 +25,14 @@ router.post('/signup', (req, res, next) => {
 			const success = User.createRefreshToken(user);
 
 			if (success) {
-
 				const token = User.createJWT(user);
+				delete user.password;
+				delete user.security_token;
+
 				return res.cookie(process.env.APP_COOKIE, token, { expires: new Date(Date.now() + process.env.COOKIE_EXP), httpOnly: true })
-					.json({ url: '/home' })
+					.json({ url: '/home', loggedIn: true })
 			} else {
-				return res.status(500).json({ message: 'Something went wrong' });
+				return res.status(500).json({ message: 'Something went wrong', loggedIn: false });
 			};
 
 		} catch (error) {
@@ -41,8 +46,6 @@ router.post('/login', (req, res, next) => {
 		try {
 			if (err || !user) return res.status(401).json(info);
 
-			delete user.password;
-
 			req.login(user, { session: false }, async (error) => {
 				if (error) return next(error)
 
@@ -50,11 +53,13 @@ router.post('/login', (req, res, next) => {
 
 				if (success) {
 					const token = await User.createJWT(user);
+					delete user.password;
+					delete user.security_token;
 
 					return res.cookie(process.env.APP_COOKIE, token, { expires: new Date(Date.now() + process.env.COOKIE_EXP), httpOnly: true })
-						.json({ url: '/home' });
+						.json({ url: '/home', user: user, loggedIn: true });
 				} else {
-					return res.status(500).json({ message: 'Something went wrong' });
+					return res.status(500).json({ message: 'Something went wrong', loggedIn: false });
 				}
 
 			});
@@ -63,6 +68,12 @@ router.post('/login', (req, res, next) => {
 		}
 	})(req, res, next);
 });
+
+router.post('/logout', (req, res, next) => {
+	getTokenFromDB(req.body.user);
+});
+
+router.use('/authenticate', authenticate);
 
 
 

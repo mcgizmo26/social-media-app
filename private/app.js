@@ -14,12 +14,10 @@ require('./auth/auth');
 app.use(express.json());
 app.use(cookies());
 
-app.use(passport.initialize());
-
 
 // *********************************** Controllers **************************************
 app.use('/public', publicCtrl);
-app.use('/app', passport.authenticate('jwt', { session: false }), secureCtrl);
+app.use('/app', passport.authenticate('secure', { session: false }), secureCtrl);
 
 
 app.use(function (err, req, res, next) {
