@@ -1,32 +1,41 @@
 // External Libraries **************************************************
-import React from 'react';
-import { Route, Redirect, RouteProps } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React, { useLayoutEffect } from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 
 
-// Interfaces **********************************************************
-interface RootState {
-    user: {
-        Authenticated: boolean
-    }
-};
-
-interface ProtectedRouteProps extends Omit<RouteProps, "component"> {
-    component: React.ElementType;
-}
+// Project Imports *****************************************************
+import { IUserRootState } from '../interfaces/user';
+import { IAuthenticated } from '../interfaces/authenticated';
+import { ProtectedRouteProps } from '../interfaces/protected-routes';
+import { userInfo } from '../store/actions/user';
 
 
 // React Component *****************************************************
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Component, ...rest }) => {
-    const authenticated = useSelector((state: RootState) => state.user.Authenticated);
+    const loggedIn = localStorage.getItem("loggedIn");
+    const user = useSelector((state: IUserRootState) => state.user);
+    const authenticated = useSelector((state: IAuthenticated) => state.authenticated );
+    const dispatch = useDispatch();
 
-    if (authenticated) {
+    useLayoutEffect(() => {
+        if (!authenticated) {
+            axios.post(`public/authenticate/check`)
+                    .then(res => {
+                        dispatch(userInfo(res.data.user));
+                    });
+        };
+    }, [authenticated, user, dispatch]);
+
+    if (loggedIn) {
         return (
             <Route {...rest} render={
                 props => <Component {...rest} {...props} />
             } />
         )
     } else {
+
         return <Redirect to={
             {
                 pathname: '/',

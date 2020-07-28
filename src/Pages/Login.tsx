@@ -8,8 +8,7 @@ import { useDispatch } from 'react-redux';
 // Project Imports *****************************************************
 import FormValidation from '../Functions/FormValidation';
 import Form1 from '../Components/Form1';
-import { userAuthenticate } from  '../store/actions/user'
-// import AUTH from '../Components/Auth';
+import { userInfo } from '../store/actions/user';
 
 
 // Interfaces **********************************************************
@@ -54,10 +53,12 @@ const Login = () => {
             if (errorContainer) errorContainer.innerHTML = "";
 
             try {
-                axios.post('/authenticate/login', sndObj)
+                axios.post('/public/login', sndObj)
                     .then(res => {
                         if(res.status === 200){
-                            dispatch(userAuthenticate(true));
+                            dispatch(userInfo(res.data.user));
+                            localStorage.setItem('loggedIn', 'true');
+
                             history.push(res.data.url);
                         }
                     })

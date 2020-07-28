@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import '../Styles/app.css';
 import Form1 from '../Components/Form1';
 import FormValidation from '../Functions/FormValidation';
-import { userAuthenticate } from  '../store/actions/user'
+import { userInfo } from '../store/actions/user'
 
 
 // React component *****************************************************
@@ -54,16 +54,20 @@ const Signup = () => {
             if (errorContainer) errorContainer.innerHTML = "";
 
             try {
-                axios.post('/authenticate/signup', sndObj)
+                axios.post('/public/signup', sndObj)
                     .then(res => {
                         if(res.status === 200){
-                            dispatch(userAuthenticate(true));
+                            localStorage.setItem("loggedIn", "true");
+                            dispatch(userInfo(res.data.user));
                             history.push(res.data.url);
                         }
                     })
                     .catch(err => {
                         if (err.response.status === 403 && errorContainer) {
                             errorContainer.innerHTML = err.response.data.message;
+                            if(localStorage.getItem("loggedIn")){
+                                localStorage.removeItem("loggedIn");
+                            }
                         }
                     })
             } catch (err) {

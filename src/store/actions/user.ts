@@ -1,8 +1,11 @@
+// Project Imports *****************************************************
+import { IUSER } from "../../interfaces/user";
+
 // Variables Export ****************************************************
-export const AUTHENTICATED = 'AUTHENTICATED';
+export const USER = 'user';
 
 
 // Actions *************************************************************
-export const userAuthenticate = (authenticated: boolean) => {
-    return {type: AUTHENTICATED, authenticated: authenticated}
+export const userInfo = (user: IUSER | Promise<IUSER>) => {
+    return {type: USER, user}
 };

@@ -1,26 +1,23 @@
 // Project Imports *****************************************************
-import { AUTHENTICATED } from '../actions/user';
+import { USER } from '../actions/user';
+import { IuserAction }  from '../../interfaces/user';
 
 
 // Initial State *******************************************************
 const initialState = {
-    Authenticated: false
-};
-
-
-// Project Imports *****************************************************
-interface userAction {
-    type: string,
-    authenticated: boolean
+        user_id: false,
+        firstname: "",
+        lastname: "",
+        email: ""
 };
 
 
 // Reducers ************************************************************
-const userReducer = (state = initialState, action: userAction) => {
+const userReducer = (state = initialState, action: IuserAction) => {
     switch (action.type) {
-        case AUTHENTICATED:
-                return { ...state, Authenticated: action.authenticated };
-
+        case USER:
+                const user = action.user;
+                return { ...state, ...user };
         default:
             return state;
     }

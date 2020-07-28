@@ -15,20 +15,20 @@ import Settings from './Pages/Settings';
 import ResetPassword from './Pages/ResetPassword';
 import ProtectedRoute from './Components/ProtectedRoute';
 import userReducer from './store/reducers/user';
+import authenticatedReducer from './store/reducers/authenticated';
 
 
 // Use to combine reduxers into a single object ************************
 const rootReducer = combineReducers(
 	{
-		user: userReducer
+		user: userReducer,
+		authenticated: authenticatedReducer
 	}
-)
-
+);
 
 
 // Creates an instance of the redux store ******************************
 const store = createStore(rootReducer, composeWithDevTools());
-
 
 
 // Main Function to kick off project ***********************************

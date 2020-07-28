@@ -1,7 +1,7 @@
 // External Libraries **************************************************
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch} from 'react-redux';
 
 // Project Imports *****************************************************
 import '../Styles/app.css';
@@ -10,18 +10,7 @@ import PageHeader from '../Components/PageHeader';
 import NewPostComponent from '../Components/NewPostComponent';
 import PostComponent from '../Components/PostComponent';
 import HomepagePanelPageletMesg from '../Components/HomepagePanelPagletMesg';
-import { userAuthenticate } from '../store/actions/user';
-
-
-// Interfaces **********************************************************
-interface post {
-    name: string,
-    comment: string,
-    reactions: {
-        likes: number,
-        shares: number
-    }
-}
+import { IPost as post } from '../interfaces/posts';
 
 
 // React Component *****************************************************
@@ -44,7 +33,9 @@ const Home = () => {
                 // Must wrap useDispatch in an IIFE to prevent useDispatch in useEffect error.
                 (async () => {
                     window.location.pathname = '/';
-                    dispatch(userAuthenticate(false));
+                    if(localStorage.getItem("loggedIn")){
+                        localStorage.removeItem("loggedIn");
+                    }
                 })();
             }
           });
